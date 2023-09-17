@@ -16,6 +16,6 @@ html {
 body {
     max-width: 100vw;
     height: 100vh;
-    background-color: #3D2473;
+    background-color: #c4bdd3;
 }
 `;

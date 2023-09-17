@@ -28,8 +28,8 @@ export const Section = styled.section`
             border-radius: .2rem;
 
             &:focus {
-                background-color: #34d3d3bc;
-                color: #ffffffc3;
+                background-color: #75727211;
+                color: black;
             }
             }
         }
@@ -68,7 +68,7 @@ export const Section = styled.section`
 
                 a:hover {
                     font-size: 1.1rem;
-                    color: #34bfbf;
+                    color: #757272;
                     transition: .4s;
                 }
                 
@@ -79,12 +79,12 @@ export const Section = styled.section`
 `;
 
 export const ErroSpan = styled.span`
-    background-color: #ffaeae;
-    color: #9e0000;
+    background-color: white;
+    color: #ef3a3a;
     padding: .5rem;
     width: 99%;
     display: flex;
-    justify-content: center;
-    font-size: 1.1rem;
+    justify-content: left;
+    font-size: .7rem;
     font-weight: bold;
 `;

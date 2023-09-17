@@ -1,5 +1,5 @@
 import { Nav } from "./NavbarStyle";
-import logo from "../../../public/Logosite.jpg";
+import logo from "../../../public/logo.jpg";
 import { Outlet } from "react-router-dom";
 
 export function Navbar() {
