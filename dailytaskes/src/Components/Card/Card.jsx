@@ -1,17 +1,14 @@
-import { Section, ErroSpan } from "./CardStyled";
+import { Section, Form, DivButton, SectionLink, ErroSpan } from "./CardStyled";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userCreate } from "../../services/UserServices";
+import { userCreate, confirmEmail } from "../../services/UserServices";
 import { useState, useEffect } from "react";
-
-const registerSchema = z.object({
-    name: z.string().nonempty({ message: "Nome não pode ser vazio" }).refine(value => !/^\s*$/.test(value), { message: "Nome não pode ter apenas espaços" }),
-    username: z.string().nonempty({ message: "Sobrenome não pode ser vazio" }).refine(value => !/^\s*$/.test(value), { message: "Sobrenome não pode ter apenas espaços" }),
-    email: z.string().nonempty({ message: "Email não pode ser vazio" }).refine((value) => /@/.test(value), { message: "Email deve conter um @" }),
-    password: z.string().nonempty({ message: "Senha não pode ser vazia" }).refine((value) => /^(?=.*[@!#$%^&*()/\\])[@!#$%^&*()/\\a-zA-Z0-9]{8,12}$/.test(value), { message: "* A senha deve conter pelo menos entre 8 a 12 caracters; * A senha deve conter pelo menos um caracter especial: '@,#/?'. " })
-})
+import { registerSchema } from "../../Models/RegisterSchema";
+import Cookies from "js-cookie";
+import { authentication } from "../../services/authServices";
+import { loginSchema } from "../../Models/LoginSchema";
+import { Link } from "react-router-dom";
 
 export function Card() {
 
@@ -24,15 +21,25 @@ export function Card() {
 
     async function onRegister(data) {
         const { name, username, email, password } = data;
-        const response = await userCreate({name, username, email, password });
-        navigate("/");
-        reset();
+        const codigo = await confirmEmail({ name ,email });
+        console.log(codigo.data.codigo)
+        Cookies.set("name", name, { expires: 1 });
+        Cookies.set("username", username, { expires: 1 });
+        Cookies.set("email", email, { expires: 1 });
+        Cookies.set("password", password, {
+            expires: 1
+        })
+        Cookies.set("codigoserver", codigo.data.codigo, {
+            expires: 1
+        })
+        //console.log(response);
+        //const response = userCreate({ name, username, email, password });
+        navigate("/codigo");
     }
-
 
     return (
         <Section>
-            <form onSubmit={handleSubmit(onRegister)}>
+            <Form onSubmit={handleSubmit(onRegister)}>
                 <label>
                     Nome: <br />
                     <input type="text" {...register("name")} placeholder="Insira o nome" />
@@ -53,45 +60,74 @@ export function Card() {
                 <label >
                     Senha:
                     <br />
-                    <input type="text" {...register("password")} placeholder="Insira uma senha" />
+                    <input type="password" {...register("password")} placeholder="Insira uma senha" />
                     {errors.password && <ErroSpan>*{errors.password.message}</ErroSpan>}
                 </label>
-                <div>
+                <DivButton>
                     <button>Finalizar Cadastro</button>
-                </div>
-            </form>
+                </DivButton>
+            </Form>
         </Section>
     )
 }
 
 export function CardLogin() {
+
+    const navigate = useNavigate();
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+        resolver: zodResolver(loginSchema)
+    })
+
+    async function inSignin(data) {
+        try {
+            const token = await authentication(data);
+
+            Cookies.set('token', token.data.token, { 
+                expires: 1
+            });
+
+            navigate('/dastboard');
+
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
+    
+
     return (
-        <Section top>
-            <form>
+        <Section >
+            <Form onSubmit={handleSubmit(inSignin)}>
                 <label>
                     Email:
                     <br />
-                    <input type="text" name="email" placeholder="Insira o email" />
+                    <input type="text" {...register("email")} placeholder="Insira o Email" />
+                    {errors.email && <ErroSpan>*{errors.email.message}</ErroSpan>}
                 </label>
                 <label>
-                    Senha:
+                Senha:
                     <br />
-                    <input type="text" name="password" placeholder="Insira a senha" />
+                    <input type="password" {...register("password")} placeholder="Insira uma senha" />
+                    {errors.password && <ErroSpan>*{errors.password.message}</ErroSpan>}
                 </label>
-                <div>
+                <DivButton>
                     <button>
                         Login
                     </button>
-                </div>
-                <section>
+                </DivButton>
+                <SectionLink>
                     <div>
-                        <a href="#">Ainda não é cadastrado? Clique Aqui</a>
+                        <Link to="/cadastrar">
+                        Ainda não é cadastrado? Clique Aqui</Link>
                     </div>
                     <div>
-                        <a href="#">Esqueceu a senha? clique aqui</a>
+                        <Link to="#">
+                        Esqueceu a senha? clique aqui
+                        </Link>
                     </div>
-                </section>
-            </form>
+                </SectionLink>
+            </Form>
         </Section>
     )
 }
