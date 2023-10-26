@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "https://servidor-para-site-de-tarefas.onrender.com";
 
 export async function createTaskeService(dados) {
     console.log(dados, Cookies.get('token'))
