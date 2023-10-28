@@ -12,6 +12,7 @@ import { Taske } from './Components/Card/Taske.jsx';
 import { Dastboard } from './Pages/Destbord/Destboard.jsx';
 import { Section } from './Components/Card/CardStyled.jsx';
 import { EditTask } from './Components/Card/EditTask.jsx';
+import { AuthProvider } from './Context/AuthProvider.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,16 +32,16 @@ const router = createBrowserRouter([
       element: <Codigo />
     },
     {
-      path: "/dastboard",
-      element: <Dastboard />
+      path: "/dastboard", 
+      element: <AuthProvider path="/dastboard" element={<Dastboard />}></AuthProvider>
     },
     {
       path: "/createtaske",
-      element: <Taske />
+      element: <AuthProvider path="/createtaske" element={<Taske />}></AuthProvider>
     },
     {
       path: "/editartask/:id",
-      element: <EditTask />,
+      element: <AuthProvider path="/editartask/:id" element={<EditTask />}></AuthProvider>,
     }]
   }
 ])

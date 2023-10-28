@@ -10,7 +10,7 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    background-color: #fff;
+    background-color: #D3B4FD;
     width: 70vw;
     margin-top: 5rem;
     padding: 2rem;
@@ -27,9 +27,10 @@ export const Form = styled.form`
             padding: 0 0 0 .5rem;
             border-color: #6156A6;
             border-radius: .2rem;
+            background-color: white;
 
         &:focus {
-            background-color: #75727211;
+            background-color: white;
             color: black;
             }
         }
@@ -45,7 +46,7 @@ export const DivButton = styled.div`
         padding: .4rem;
         font-size: 1rem;
         background-color: #34d3d3bc;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         cursor: pointer;
 
         &:hover {
@@ -85,4 +86,5 @@ export const ErroSpan = styled.span`
     justify-content: left;
     font-size: .7rem;
     font-weight: bold;
+    border-radius: 0.2rem;
 `;

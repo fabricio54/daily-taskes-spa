@@ -37,7 +37,7 @@ export function EditTask() {
                     {errors.name && <ErroSpan>*{errors.name.message}</ErroSpan>}
                 </label>
                 <label>
-                    Descrição: 
+                    Descrição:
                     <input type="text" placeholder="Editar Descrição" {...register('description')}/>
                     {errors.title && <ErroSpan>*{errors.title.message}</ErroSpan>}
                 </label>

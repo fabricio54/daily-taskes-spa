@@ -11,11 +11,12 @@ export const StyleGlobal = createGlobalStyle`
 
 html {
     width: auto;
+    overflow-x: hidden;
 }
 
 body {
     max-width: 100vw;
     height: 100vh;
-    background-color: #c4bdd3;
-}
+    background-color: #1B1B1B;
+    overflow-x: hidden}
 `;

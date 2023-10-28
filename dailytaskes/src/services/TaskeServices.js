@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const baseUrl = "https://servidor-para-site-de-tarefas.onrender.com";
+//const baseUrl = "https://servidor-para-site-de-tarefas.onrender.com";
+const baseUrl = "http://localhost:3000";
 
 export async function createTaskeService(dados) {
     console.log(dados, Cookies.get('token'))
@@ -43,10 +44,12 @@ export async function deleteTaskeService(id) {
 }
 
 export async function modificarStatus(id) {
-    const response = await axios.put(`${baseUrl}/taske/statustaske?id=${id}`, {
+    const config = {
         headers: {
             Authorization: `Bearer ${Cookies.get('token')}`
         }
-    })
+    };
+
+    const response = await axios.put(`${baseUrl}/taske/statustaske?id=${id}`, {}, config);
     return response;
 }
